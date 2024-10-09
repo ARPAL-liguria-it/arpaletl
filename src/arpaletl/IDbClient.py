@@ -1,14 +1,10 @@
 from abc import ABC, abstractmethod
-from sqlalchemy import Engine
 
 
 class IDbClient(ABC):
     """
     Interface for database client
     """
-
-
-    engine: Engine
 
 
     @abstractmethod
@@ -24,12 +20,12 @@ class IDbClient(ABC):
         Destructor for IDbClient
         """
 
-
-    def get_engine(self) -> Engine:
+    @abstractmethod
+    def connect(self) -> object:
         """
-        Return engine
+        Connect method for IDbClient
+        @returns: Connection object
         """
-        return self.engine
 
 
 class DbClientError(Exception):

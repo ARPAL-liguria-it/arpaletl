@@ -1,9 +1,6 @@
-import os
 import logging
 import sqlalchemy
-import oracledb
 from src.arpaletl.IDbClient import IDbClient, DbClientError
-
 
 
 class OracleDbClient(IDbClient):
@@ -11,50 +8,41 @@ class OracleDbClient(IDbClient):
     Oracle Database client that implements the IDbClient interface
     """
 
-    def __init__(self):
+
+    def __init__(self, db_user: str, db_password: str, db_dsn: str):
         """
-        Init method that creates an engine for sqlalchemy
+        Init method for OracleDbClient
+        @raises DbClientError: If the engine creation fails
+        @param db_user: Database user
+        @param db_password: Database password
+        @param db_dsn: Database DSN
+        @self.engine: sqlalchemy.Engine object
         """
-        connection = get_connection()
-        if connection is not None:
-            self.conn = connection
-            self.cursor = connection.cursor()
-            try:
-                self.engine = sqlalchemy.create_engine(
-                    "oracle+oracledb://",
-                    creator=lambda: connection
-                )
-                logging.info("Sqlalchemy engine created successfully")
-            except Exception as e:
-                logging.error("Sqlachemy engine creation failed: %s", e)
-                raise DbClientError("Sqlalchemy engine creation failed") from e
+        if not db_user or not db_password or not db_dsn:
+            raise DbClientError("Invalid credentials")
+        self.engine = sqlalchemy.create_engine(
+            f"oracle+oracledb://{db_user}:{db_password}@{db_dsn}",
+            thick_mode=None
+        )
+        logging.info("Sqlalchemy engine created successfully")
+
 
     def __del__(self):
         """
-        Delete method
+        Delete method for OracleDbClient that disposes of the engine
         """
-        self.conn.close()
+        self.engine.dispose()
+        logging.info("Sqlalchemy engine disposed")
 
 
-def get_connection():
-    """ 
-    Helper function that creates a connection to the DB reading the environmental variables
-    """
-    try:
-        user = os.getenv("DB_USER")
-        pwd = os.getenv("DB_PASSWORD")
-        dsn = os.getenv("DB_DSN")
-
-        if user is not None and pwd is not None and dsn is not None:
-            connection = oracledb.connect(
-                user=user,
-                password=pwd,
-                dsn=dsn
-            )
-            logging.info("Connection to Oracle Database succeded")
-            return connection
-        else:
-            raise ValueError("Env vars are not set")
-    except Exception as e:
-        logging.error("Connection to Oracle Database failed: %s", e)
-        raise DbClientError("Connection to Oracle Database failed") from e
+    def connect(self) -> sqlalchemy.Connection:
+        """
+        Connect method for OracleDbClient
+        @returns: Connection object
+        """
+        try:
+            conn = self.engine.connect()
+        except Exception as e:
+            logging.error("Connection failed: %s", e)
+            raise DbClientError("Connection failed") from e
+        return conn
