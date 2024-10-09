@@ -8,6 +8,7 @@ class OracleDbClient(IDbClient):
     Oracle Database client that implements the IDbClient interface
     """
 
+    engine: sqlalchemy.Engine
 
     def __init__(self, db_user: str, db_password: str, db_dsn: str):
         """
@@ -31,7 +32,11 @@ class OracleDbClient(IDbClient):
         """
         Delete method for OracleDbClient that disposes of the engine
         """
-        self.engine.dispose()
+        try:
+            self.engine.dispose()
+        except Exception as e:
+            logging.error("Engine disposal failed: %s", e)
+            raise DbClientError("Engine disposal failed") from e
         logging.info("Sqlalchemy engine disposed")
 
 
