@@ -4,3 +4,4 @@ sqlalchemy
 oracledb
 pytest
 coverage
+pandas
