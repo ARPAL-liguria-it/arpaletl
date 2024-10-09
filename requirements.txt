@@ -3,3 +3,4 @@ setuptools
 sqlalchemy
 oracledb
 pytest
+coverage
