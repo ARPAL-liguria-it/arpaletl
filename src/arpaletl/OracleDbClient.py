@@ -4,9 +4,17 @@ import oracledb
 import logging
 from IDbClient import IDbClient
 
+
 class OracleDbClient(IDbClient):
+    """
+    Oracle Database client that implements the IDbClient interface
+    """
+
 
     def __init__(self):
+        """
+        Init method that creates an engine for sqlalchemy
+        """
         connection = get_connection()
         if connection is not None:
             self.conn = connection
@@ -21,10 +29,18 @@ class OracleDbClient(IDbClient):
                 logging.error("Sqlachemy engine creation failed")
                 exit(1)
     
+
     def __del__(self):
+        """
+        Delete method
+        """
         self.conn.close()
 
+
 def get_connection():
+    """ 
+    Helper function that creates a connection to the DB reading the environmental variables
+    """
     try:
         user = os.getenv("DB_USER")
         pwd = os.getenv("DB_PASSWORD")
@@ -38,6 +54,8 @@ def get_connection():
             )
             logging.info("Connection to Oracle Database succeded")
             return connection
+        else:
+            raise ValueError("Env vars are not set")
     except:
         logging.error("Connection to Oracle Database failed")
         exit(1)
