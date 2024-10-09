@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import patch, MagicMock
 from sqlalchemy import Engine
 from src.arpaletl.OracleDbClient import OracleDbClient
 from src.arpaletl.IDbClient import DbClientError
@@ -25,10 +26,16 @@ class TestOracleDbClient(unittest.TestCase):
             OracleDbClient("test_user", None, "test_dsn")
 
 
-    def test_oracle_db_client_connect_success(self):
+    @patch("sqlalchemy.Engine.connect")
+    def test_oracle_db_client_connect_success(self, mock_engine_connect):
         """
         Test the connect method of OracleDbClient
         """
+        mock_conn = MagicMock(spec=Engine)
+        mock_engine_connect.return_value = mock_conn
+        db = OracleDbClient("test_user", "test_password", "test_dsn")
+        conn = db.connect()
+        self.assertIsInstance(conn, Engine)
 
 
     def test_oracle_db_client_connect_failure(self):
