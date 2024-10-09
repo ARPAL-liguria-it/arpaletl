@@ -2,3 +2,5 @@ wheel
 setuptools
 sqlalchemy
 oracledb
+pytest
+coverage

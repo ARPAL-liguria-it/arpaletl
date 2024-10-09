@@ -1,2 +1,5 @@
 .env/
 .git/
+.vscode/
+**/__pycache__/
+.coverage
