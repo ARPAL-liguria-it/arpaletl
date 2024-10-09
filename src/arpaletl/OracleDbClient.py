@@ -1,15 +1,14 @@
 import os
+import logging
 import sqlalchemy
 import oracledb
-import logging
-from IDbClient import IDbClient
+from src.arpaletl.IDbClient import IDbClient
 
 
 class OracleDbClient(IDbClient):
     """
     Oracle Database client that implements the IDbClient interface
     """
-
 
     def __init__(self):
         """
@@ -21,14 +20,13 @@ class OracleDbClient(IDbClient):
             self.cursor = connection.cursor()
             try:
                 self.engine = sqlalchemy.create_engine(
-                        "oracle+oracledb://",
-                        creator=lambda: connection
+                    "oracle+oracledb://",
+                    creator=lambda: connection
                 )
                 logging.info("Sqlalchemy engine created successfully")
-            except:
-                logging.error("Sqlachemy engine creation failed")
+            except Exception as e:
+                logging.error("Sqlachemy engine creation failed: %s", e)
                 exit(1)
-    
 
     def __del__(self):
         """
@@ -48,15 +46,14 @@ def get_connection():
 
         if user is not None and pwd is not None and dsn is not None:
             connection = oracledb.connect(
-                        user = user,
-                        password = pwd,
-                        dsn = dsn
+                user=user,
+                password=pwd,
+                dsn=dsn
             )
             logging.info("Connection to Oracle Database succeded")
             return connection
         else:
             raise ValueError("Env vars are not set")
-    except:
-        logging.error("Connection to Oracle Database failed")
+    except Exception as e:
+        logging.error("Connection to Oracle Database failed: %s", e)
         exit(1)
-

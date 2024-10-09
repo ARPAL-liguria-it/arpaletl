@@ -1,12 +1,12 @@
-from sqlalchemy import Engine
 from abc import ABC, abstractmethod
+from sqlalchemy import Engine
 
 
 class IDbClient(ABC):
     """
     Interface for database client
     """
-    
+
 
     engine: Engine
 
@@ -30,4 +30,3 @@ class IDbClient(ABC):
         Return engine
         """
         return self.engine
-
