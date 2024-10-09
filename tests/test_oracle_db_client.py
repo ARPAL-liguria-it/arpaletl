@@ -42,7 +42,7 @@ class TestOracleDbClient(unittest.TestCase):
 
     @patch('oracledb.connect')
     @patch('os.getenv')
-    def test_oracle_db_client_init_failure(self, mock_getenv):
+    def test_oracle_db_client_init_failure(self, mock_getenv, mock_connect):
         """
         Test the constructor of OracleDbClient when the connection fails
         """
