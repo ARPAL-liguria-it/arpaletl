@@ -24,4 +24,3 @@ class IDbClient(ABC):
         Connect method for IDbClient
         @returns: Connection object
         """
-

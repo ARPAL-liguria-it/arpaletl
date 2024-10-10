@@ -2,7 +2,7 @@ from typing import AsyncIterator
 import requests
 import aiohttp
 from src.arpaletl.IResource import IResource
-from src.arpaletl.Errors import ResourceError
+from src.arpaletl.ArpalEtlErrors import ResourceError
 from src.arpaletl.utils.logger import get_logger
 
 

@@ -27,4 +27,3 @@ class IExtractor(ABC):
         Extract method for IExtractor
         @returns: Extracted data
         """
-

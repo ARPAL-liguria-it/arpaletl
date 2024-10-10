@@ -1,6 +1,6 @@
 import pandas as pd
 from src.arpaletl.IExtractor import IExtractor
-from src.arpaletl.Errors import ExtractorError
+from src.arpaletl.ArpalEtlErrors import ExtractorError
 from src.arpaletl.IResource import IResource
 from src.arpaletl.utils.logger import get_logger
 

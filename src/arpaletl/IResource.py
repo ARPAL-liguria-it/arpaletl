@@ -39,4 +39,3 @@ class IResource(ABC):
         Open method for IResource
         @returns: Opened resource that can be parse in @buffer sized chunks
         """
-

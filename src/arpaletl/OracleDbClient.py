@@ -1,6 +1,6 @@
 import sqlalchemy
 from src.arpaletl.IDbClient import IDbClient
-from src.arpaletl.Errors import DbClientError
+from src.arpaletl.ArpalEtlErrors import DbClientError
 from src.arpaletl.utils.logger import get_logger
 
 
