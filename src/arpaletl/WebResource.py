@@ -84,7 +84,9 @@ class WebResource(IResource):
                     response.raise_for_status()
                     self.logger.info(
                         "Resource successfully downloaded from %s", self.uri)
-                    async for data in response.content.iter_any(chunk):
+                    async for data in response.content.read(chunk):
+                        if not data:
+                            break
                         yield data
         except aiohttp.ClientError as e:
             self.logger.error("Error downloading web resource: %s", e)
