@@ -5,3 +5,4 @@ oracledb
 pytest
 coverage
 pandas
+requests
