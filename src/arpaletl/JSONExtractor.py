@@ -33,7 +33,7 @@ class JSONExtractor(IExtractor):
         """
         try:
             buffer = BytesIO()
-            async for chunk in self.resource.async_open_stream(1024):
+            async for chunk in self.resource.open_stream(1024):
                 buffer.write(chunk)
             buffer.seek(0)
             json_data = json.loads(buffer.getvalue().decode("utf-8"))
