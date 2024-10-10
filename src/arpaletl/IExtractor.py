@@ -28,15 +28,3 @@ class IExtractor(ABC):
         @returns: Extracted data
         """
 
-
-class ExtractorError(Exception):
-    """
-    Custom exception for extractor errors
-    """
-
-    def __init__(self, message: str):
-        """
-        Constructor for ExtractorError
-        """
-        self.message = message
-        super().__init__(self.message)

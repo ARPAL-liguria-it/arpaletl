@@ -1,7 +1,8 @@
-import logging
 import pandas as pd
-from src.arpaletl.IExtractor import IExtractor, ExtractorError
+from src.arpaletl.IExtractor import IExtractor
+from src.arpaletl.Errors import ExtractorError
 from src.arpaletl.IResource import IResource
+from src.arpaletl.utils.logger import get_logger
 
 
 class JSONExtractor(IExtractor):
@@ -16,7 +17,9 @@ class JSONExtractor(IExtractor):
         """
         Constructor for JSONExtractor
         @self.resource: Takes a resource from a IResource object
+        @self.logger: Logger object
         """
+        self.logger = get_logger(__name__)
         self.resource = resource
 
     def extract(self) -> pd.DataFrame:
@@ -29,6 +32,6 @@ class JSONExtractor(IExtractor):
             self.df = pd.read_json(
                 self.resource.open_stream(1024), lines=False)
         except Exception as e:
-            logging.error("Error reading JSON: %s", e)
+            self.logger.error("Error reading JSON: %s", e)
             raise ExtractorError("Error reading JSON") from e
         return self.df

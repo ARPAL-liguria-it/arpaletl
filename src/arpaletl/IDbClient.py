@@ -25,15 +25,3 @@ class IDbClient(ABC):
         @returns: Connection object
         """
 
-
-class DbClientError(Exception):
-    """
-    Custom exception for database client errors
-    """
-
-    def __init__(self, message: str):
-        """
-        Constructor for DbClientError
-        """
-        self.message = message
-        super().__init__(self.message)

@@ -40,15 +40,3 @@ class IResource(ABC):
         @returns: Opened resource that can be parse in @buffer sized chunks
         """
 
-
-class ResourceError(Exception):
-    """
-    Custom exception for resource errors
-    """
-
-    def __init__(self, message: str):
-        """
-        Constructor for ResourceError
-        """
-        self.message = message
-        super().__init__(self.message)

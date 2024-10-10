@@ -1,8 +1,9 @@
 from typing import AsyncIterator
 import requests
-import asyncio
 import aiohttp
-from src.arpaletl.IResource import IResource, ResourceError
+from src.arpaletl.IResource import IResource
+from src.arpaletl.Errors import ResourceError
+from src.arpaletl.utils.logger import get_logger
 
 
 class WebResource(IResource):
@@ -14,10 +15,14 @@ class WebResource(IResource):
         """
         Constructor for WebResource
         @self.uri: URI of the web resource
+        @self.timeout: Timeout for the request
+        @self.headers: Headers for the request
+        @self.logger: Logger object
         """
         self.uri = uri
         self.timeout = timeout
         self.headers = headers
+        self.logger = get_logger(__name__)
 
     def open(self) -> requests.Response:
         """
@@ -29,7 +34,9 @@ class WebResource(IResource):
             r = requests.get(self.uri, timeout=self.timeout,
                              headers=self.headers)
             r.raise_for_status()
+            self.logger.info("Resource successfully downloaded from %s", self.uri)
         except requests.exceptions.RequestException as e:
+            self.logger.error("Error downloading web resource: %s", e)
             raise ResourceError("Error downloading web resource") from e
         return r
 
@@ -42,7 +49,9 @@ class WebResource(IResource):
             r = requests.get(self.uri, timeout=self.timeout,
                              headers=self.headers, stream=True)
             r.raise_for_status()
+            self.logger.info("Resource successfully downloaded from %s", self.uri)
         except requests.exceptions.RequestException as e:
+            self.logger.error("Error downloading web resource: %s", e)
             raise ResourceError("Error downloading web resource") from e
         return r.iter_content(chunk_size=chunk)
 
@@ -57,7 +66,9 @@ class WebResource(IResource):
                                        timeout=self.timeout,
                                        headers=self.headers) as response:
                     response.raise_for_status()
+                    self.logger.info("Resource successfully downloaded from %s", self.uri)
                     async for data in response.content.iter_any(chunk):
                         yield data
         except aiohttp.ClientError as e:
+            self.logger.error("Error downloading web resource: %s", e)
             raise ResourceError("Error downloading web resource") from e
