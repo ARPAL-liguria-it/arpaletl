@@ -29,20 +29,20 @@ class IResource(ABC):
     @abstractmethod
     def open_stream(self, chunk: int) -> object:
         """
-        Open method for IResource
+        Open method for IResource that streams
         @returns: Opened resource that can be parse in @buffer sized chunks
         """
 
     @abstractmethod
     async def async_open(self) -> object:
         """
-        Open method for IResource
+        Open method for IResource that is async
         @returns: Opened resource that can be parse in @buffer sized chunks
         """
 
     @abstractmethod
     async def async_open_stream(self, chunk: int) -> object:
         """
-        Open method for IResource
+        Open method for IResource that is async and streams
         @returns: Opened resource that can be parse in @buffer sized chunks
         """

@@ -58,6 +58,11 @@ class WebResource(IResource):
         return r.iter_content(chunk_size=chunk)
 
     async def async_open(self) -> bytes:
+        """
+        Async Open method for WebResource it will download the entire
+        resource and make it available for reading
+        @returns: Opened web resource that can be readed with read()
+        """
         async with aiohttp.ClientSession() as session:
             async with session.get(self.uri,
                                    timeout=self.timeout,
@@ -67,7 +72,8 @@ class WebResource(IResource):
 
     async def async_open_stream(self, chunk: int) -> AsyncIterator:
         """
-        Async Open method for WebResource
+        Async Open method for WebResource it will download the
+        resource and make it available for reading in chunks
         @returns: an Iterator that can be parsed in @chunk sized chunks
         """
         try:
