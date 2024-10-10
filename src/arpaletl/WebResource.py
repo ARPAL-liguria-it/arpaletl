@@ -1,5 +1,4 @@
 from typing import AsyncIterator
-import requests
 import aiohttp
 from src.arpaletl.IResource import IResource
 from src.arpaletl.ArpalEtlErrors import ResourceError
@@ -24,62 +23,32 @@ class WebResource(IResource):
         self.headers = headers
         self.logger = get_logger(__name__)
 
-    def open(self) -> requests.Response:
-        """
-        Open method for WebResource it will download the entire 
-        resource and make it available for reading
-        @returns: Opened web resource that can be readed with read()
-        """
-        try:
-            r = requests.get(self.uri, timeout=self.timeout,
-                             headers=self.headers)
-            r.raise_for_status()
-            self.logger.info(
-                "Resource successfully downloaded from %s", self.uri)
-        except requests.exceptions.RequestException as e:
-            self.logger.error("Error downloading web resource: %s", e)
-            raise ResourceError("Error downloading web resource") from e
-        return r
-
-    def open_stream(self, chunk: int) -> AsyncIterator:
-        """
-        Open method for WebResource
-        @returns: an Iterator that can be parsed in @chunk sized chunks
-        """
-        try:
-            r = requests.get(self.uri, timeout=self.timeout,
-                             headers=self.headers, stream=True)
-            r.raise_for_status()
-            self.logger.info(
-                "Resource successfully downloaded from %s", self.uri)
-        except requests.exceptions.RequestException as e:
-            self.logger.error("Error downloading web resource: %s", e)
-            raise ResourceError("Error downloading web resource") from e
-        return r.iter_content(chunk_size=chunk)
-
-    async def async_open(self) -> bytes:
+    async def open(self) -> bytes:
         """
         Async Open method for WebResource it will download the entire
         resource and make it available for reading
-        @returns: Opened web resource that can be readed with read()
+        @raises: ResourceError: If there are problems downloading the resource
+        @returns: Opened web resource that can be readed
         """
         try:
             async with aiohttp.ClientSession() as session:
                 async with session.get(self.uri,
                                        timeout=self.timeout,
                                        headers=self.headers) as response:
-                    await response.raise_for_status()
+                    response.raise_for_status()
                     self.logger.info(
                         "Resource successfully downloaded from %s", self.uri)
-                    return await response.read()
+                    return await response.content.read()
         except aiohttp.ClientError as e:
             self.logger.error("Error downloading web resource: %s", e)
             raise ResourceError("Error downloading web resource") from e
 
-    async def async_open_stream(self, chunk: int) -> AsyncIterator[bytes]:
+    async def open_stream(self, chunk: int) -> AsyncIterator[bytes]:
         """
         Async Open method for WebResource it will download the
         resource and make it available for reading in chunks
+        @raises: ResourceError: If there are problems downloading the resource
+        @param chunk: Size of the chunks to be readed
         @returns: an Iterator that can be parsed in @chunk sized chunks
         """
         try:

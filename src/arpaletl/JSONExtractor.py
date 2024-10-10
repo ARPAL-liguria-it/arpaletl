@@ -2,7 +2,7 @@ import json
 from io import BytesIO
 import pandas as pd
 from src.arpaletl.IExtractor import IExtractor
-from src.arpaletl.ArpalEtlErrors import ExtractorError
+from src.arpaletl.ArpalEtlErrors import ExtractorError, ResourceError
 from src.arpaletl.IResource import IResource
 from src.arpaletl.utils.logger import get_logger
 
@@ -28,6 +28,7 @@ class JSONExtractor(IExtractor):
         """
         Extract method for JSONExtractor that parses the Iterator from IResource async_open()
         @raises: ExtractorError: if there are problems reading the JSON.
+        @raises: ResourceError: if there are problems opening the resource.
         @returns: Extracted data
         """
         try:
@@ -38,6 +39,9 @@ class JSONExtractor(IExtractor):
             json_data = json.loads(buffer.getvalue().decode("utf-8"))
             self.df = pd.DataFrame(json_data)
             self.logger.info("JSON resource successfully read")
+        except ResourceError as e:
+            self.logger.error("Error opening resource: %s", e)
+            raise ExtractorError("Error opening resource") from e
         except Exception as e:
             self.logger.error("Error reading JSON: %s", e)
             raise ExtractorError("Error reading JSON") from e

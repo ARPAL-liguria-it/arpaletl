@@ -5,5 +5,4 @@ oracledb
 pytest
 coverage
 pandas
-requests
 aiohttp
