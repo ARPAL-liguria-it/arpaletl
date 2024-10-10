@@ -63,14 +63,20 @@ class WebResource(IResource):
         resource and make it available for reading
         @returns: Opened web resource that can be readed with read()
         """
-        async with aiohttp.ClientSession() as session:
-            async with session.get(self.uri,
-                                   timeout=self.timeout,
-                                   headers=self.headers) as response:
-                response.raise_for_status()
-                return await response.read()
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.get(self.uri,
+                                       timeout=self.timeout,
+                                       headers=self.headers) as response:
+                    await response.raise_for_status()
+                    self.logger.info(
+                        "Resource successfully downloaded from %s", self.uri)
+                    return await response.read()
+        except aiohttp.ClientError as e:
+            self.logger.error("Error downloading web resource: %s", e)
+            raise ResourceError("Error downloading web resource") from e
 
-    async def async_open_stream(self, chunk: int) -> AsyncIterator:
+    async def async_open_stream(self, chunk: int) -> AsyncIterator[bytes]:
         """
         Async Open method for WebResource it will download the
         resource and make it available for reading in chunks
@@ -81,10 +87,11 @@ class WebResource(IResource):
                 async with session.get(self.uri,
                                        timeout=self.timeout,
                                        headers=self.headers) as response:
-                    response.raise_for_status()
+                    await response.raise_for_status()
                     self.logger.info(
                         "Resource successfully downloaded from %s", self.uri)
-                    async for data in response.content.read(chunk):
+                    while True:
+                        data = response.content.read(chunk)
                         if not data:
                             break
                         yield data
