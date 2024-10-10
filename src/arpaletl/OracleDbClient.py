@@ -27,7 +27,6 @@ class OracleDbClient(IDbClient):
         )
         logging.info("Sqlalchemy engine created successfully")
 
-
     def __del__(self):
         """
         Delete method for OracleDbClient that disposes of the engine
@@ -38,7 +37,6 @@ class OracleDbClient(IDbClient):
             logging.error("Engine disposal failed: %s", e)
             raise DbClientError("Engine disposal failed") from e
         logging.info("Sqlalchemy engine disposed")
-
 
     def connect(self) -> sqlalchemy.Connection:
         """

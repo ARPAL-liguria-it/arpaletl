@@ -3,6 +3,7 @@ import pandas as pd
 from src.arpaletl.IExtractor import IExtractor, ExtractorError
 from src.arpaletl.IResource import IResource
 
+
 class JSONExtractor(IExtractor):
     """
     Class that takes care of extracting a JSON resource 
@@ -18,7 +19,6 @@ class JSONExtractor(IExtractor):
         """
         self.resource = resource
 
-
     def extract(self) -> pd.DataFrame:
         """
         Extract method for JSONExtractor that parses the Iterator from IResource open_stream()
@@ -26,7 +26,8 @@ class JSONExtractor(IExtractor):
         @returns: Extracted data
         """
         try:
-            self.df = pd.read_json(self.resource.open_stream(1024), lines=False)
+            self.df = pd.read_json(
+                self.resource.open_stream(1024), lines=False)
         except Exception as e:
             logging.error("Error reading JSON: %s", e)
             raise ExtractorError("Error reading JSON") from e

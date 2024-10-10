@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+
 class IResource(ABC):
     """
     Interface for resources
@@ -31,6 +32,14 @@ class IResource(ABC):
         Open method for IResource
         @returns: Opened resource that can be parse in @buffer sized chunks
         """
+
+    @abstractmethod
+    async def _async_open_stream(self, chunk: int) -> object:
+        """
+        Open method for IResource
+        @returns: Opened resource that can be parse in @buffer sized chunks
+        """
+
 
 class ResourceError(Exception):
     """

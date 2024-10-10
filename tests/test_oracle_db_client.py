@@ -4,11 +4,11 @@ from sqlalchemy import Engine
 from src.arpaletl.OracleDbClient import OracleDbClient
 from src.arpaletl.IDbClient import DbClientError
 
+
 class TestOracleDbClient(unittest.TestCase):
     """
     Test class for OracleDbClient
     """
-
 
     def test_oracle_db_client_init_success(self):
         """
@@ -17,14 +17,12 @@ class TestOracleDbClient(unittest.TestCase):
         db = OracleDbClient("test_user", "test_password", "test_dsn")
         self.assertIsInstance(db.engine, Engine)
 
-
     def test_oracle_db_client_init_failure(self):
         """
         Test the constructor of OracleDbClient with malformed credentials
         """
         with self.assertRaises(DbClientError):
             OracleDbClient("test_user", None, "test_dsn")
-
 
     @patch("sqlalchemy.Engine.connect")
     def test_oracle_db_client_connect_success(self, mock_engine_connect):
@@ -36,7 +34,6 @@ class TestOracleDbClient(unittest.TestCase):
         db = OracleDbClient("test_user", "test_password", "test_dsn")
         conn = db.connect()
         self.assertIsInstance(conn, Engine)
-
 
     def test_oracle_db_client_connect_failure(self):
         """
