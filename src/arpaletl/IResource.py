@@ -1,3 +1,6 @@
+"""
+Interface for resources
+"""
 from abc import ABC, abstractmethod
 
 

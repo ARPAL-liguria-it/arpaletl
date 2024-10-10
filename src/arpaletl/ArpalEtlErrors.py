@@ -1,3 +1,8 @@
+"""
+Custom exceptions for arpaletl library
+"""
+
+
 class ArpalEtlError(Exception):
     """
     Default exception for arpaletl library

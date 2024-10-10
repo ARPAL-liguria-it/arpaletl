@@ -1,3 +1,6 @@
+"""
+WebResource module that implements the IResource interface
+"""
 from typing import AsyncIterator
 import aiohttp
 from src.arpaletl.IResource import IResource

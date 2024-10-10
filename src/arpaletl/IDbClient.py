@@ -1,3 +1,6 @@
+"""
+Interface for database client
+"""
 from abc import ABC, abstractmethod
 
 
