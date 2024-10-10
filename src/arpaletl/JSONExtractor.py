@@ -1,4 +1,8 @@
+"""
+Extractor for JSON data
+"""
 import json
+import gzip
 from io import BytesIO
 import pandas as pd
 from src.arpaletl.IExtractor import IExtractor
@@ -24,7 +28,7 @@ class JSONExtractor(IExtractor):
         self.logger = get_logger(__name__)
         self.resource = resource
 
-    async def extract(self) -> pd.DataFrame:
+    async def extract(self, zipped: bool = False) -> pd.DataFrame:
         """
         Extract method for JSONExtractor that parses the Iterator from IResource async_open()
         @raises: ExtractorError: if there are problems reading the JSON.
@@ -36,7 +40,11 @@ class JSONExtractor(IExtractor):
             async for chunk in self.resource.open_stream(1024):
                 buffer.write(chunk)
             buffer.seek(0)
-            json_data = json.loads(buffer.getvalue().decode("utf-8"))
+            if zipped is True:
+                data = gzip.decompress(buffer.getvalue())
+            else:
+                data = buffer.getvalue()
+            json_data = json.loads(data.decode("utf-8"))
             self.df = pd.DataFrame(json_data)
             self.logger.info("JSON resource successfully read")
         except ResourceError as e:
