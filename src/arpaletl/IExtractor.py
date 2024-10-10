@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 import pandas as pd
+from src.arpaletl.IResource import IResource
 
 class IExtractor(ABC):
     """
@@ -8,10 +9,11 @@ class IExtractor(ABC):
 
 
     @abstractmethod
-    def __init__(self):
+    def __init__(self, resource: IResource):
         """
         Constructor for IExtractor
         """
+        self.resource = resource
 
 
     @abstractmethod
