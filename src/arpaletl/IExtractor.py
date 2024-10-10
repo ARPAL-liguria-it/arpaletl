@@ -22,7 +22,7 @@ class IExtractor(ABC):
         """
 
     @abstractmethod
-    def extract(self) -> pd.DataFrame:
+    async def extract(self) -> pd.DataFrame:
         """
         Extract method for IExtractor
         @returns: Extracted data

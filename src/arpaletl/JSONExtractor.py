@@ -1,3 +1,4 @@
+import json
 import pandas as pd
 from src.arpaletl.IExtractor import IExtractor
 from src.arpaletl.ArpalEtlErrors import ExtractorError
@@ -22,15 +23,16 @@ class JSONExtractor(IExtractor):
         self.logger = get_logger(__name__)
         self.resource = resource
 
-    def extract(self) -> pd.DataFrame:
+    async def extract(self) -> pd.DataFrame:
         """
-        Extract method for JSONExtractor that parses the Iterator from IResource open_stream()
+        Extract method for JSONExtractor that parses the Iterator from IResource async_open()
         @raises: ExtractorError: if there are problems reading the JSON.
         @returns: Extracted data
         """
         try:
-            data = self.resource.async_open().json()
-            self.df = pd.DataFrame(data)
+            raw_data = self.resource.async_open()
+            json_data = json.loads(raw_data.decode('utf-8'))
+            self.df = pd.DataFrame(json_data)
             self.logger.info("JSON resource successfully read")
         except Exception as e:
             self.logger.error("Error reading JSON: %s", e)
