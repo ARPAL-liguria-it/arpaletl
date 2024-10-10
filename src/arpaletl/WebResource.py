@@ -87,11 +87,11 @@ class WebResource(IResource):
                 async with session.get(self.uri,
                                        timeout=self.timeout,
                                        headers=self.headers) as response:
-                    await response.raise_for_status()
+                    response.raise_for_status()
                     self.logger.info(
                         "Resource successfully downloaded from %s", self.uri)
                     while True:
-                        data = response.content.read(chunk)
+                        data = await response.content.read(chunk)
                         if not data:
                             break
                         yield data

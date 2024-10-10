@@ -35,7 +35,7 @@ class JSONExtractor(IExtractor):
             async for chunk in self.resource.async_open_stream(1024):
                 buffer.write(chunk)
             buffer.seek(0)
-            json_data = json.load(buffer.getvalue().decode("utf-8"))
+            json_data = json.loads(buffer.getvalue().decode("utf-8"))
             self.df = pd.DataFrame(json_data)
             self.logger.info("JSON resource successfully read")
         except Exception as e:
