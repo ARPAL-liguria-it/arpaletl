@@ -45,7 +45,3 @@ class TestOracleDbClient(unittest.TestCase):
         db = OracleDbClient("test_user", "test_password", "test_dsn")
         with self.assertRaises(DbClientError):
             db.connect()
-
-
-if __name__ == '__main__':
-    unittest.main()
