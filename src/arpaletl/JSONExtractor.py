@@ -28,9 +28,10 @@ class JSONExtractor(IExtractor):
         self.logger = get_logger(__name__)
         self.resource = resource
 
-    async def extract(self, zipped: bool = False) -> pd.DataFrame:
+    async def extract(self, gzipped: bool = False) -> pd.DataFrame:
         """
         Extract method for JSONExtractor that parses the Iterator from IResource async_open()
+        @param gzipped: If the data is gzipped
         @raises: ExtractorError: if there are problems reading the JSON.
         @raises: ResourceError: if there are problems opening the resource.
         @returns: Extracted data
@@ -39,10 +40,19 @@ class JSONExtractor(IExtractor):
             buffer = BytesIO()
             async for chunk in self.resource.open_stream(1024):
                 buffer.write(chunk)
-            buffer.seek(0)
-            if zipped is True:
+            if not buffer.seekable():
+                self.logger.error("Buffer is not seekable")
+                raise ExtractorError("Buffer is not seekable")
+            if gzipped is True:
+                if not buffer.getvalue().startswith(b"\x1f\x8b"):
+                    self.logger.error(
+                        "Data is not gzipped please set gzipped to False or check the data source")
+                    raise ExtractorError(
+                        "Data is not gzipped please set gzipped to False or check the data source")
+                buffer.seek(0)
                 data = gzip.decompress(buffer.getvalue())
             else:
+                buffer.seek(0)
                 data = buffer.getvalue()
             json_data = json.loads(data.decode("utf-8"))
             self.df = pd.DataFrame(json_data)
