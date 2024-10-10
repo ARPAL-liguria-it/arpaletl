@@ -34,7 +34,14 @@ class IResource(ABC):
         """
 
     @abstractmethod
-    async def _async_open_stream(self, chunk: int) -> object:
+    async def async_open(self) -> object:
+        """
+        Open method for IResource
+        @returns: Opened resource that can be parse in @buffer sized chunks
+        """
+
+    @abstractmethod
+    async def async_open_stream(self, chunk: int) -> object:
         """
         Open method for IResource
         @returns: Opened resource that can be parse in @buffer sized chunks

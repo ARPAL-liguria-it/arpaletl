@@ -29,8 +29,9 @@ class JSONExtractor(IExtractor):
         @returns: Extracted data
         """
         try:
-            self.df = pd.read_json(
-                self.resource.open_stream(1024), lines=False)
+            data = self.resource.async_open().json()
+            self.df = pd.DataFrame(data)
+            self.logger.info("JSON resource successfully read")
         except Exception as e:
             self.logger.error("Error reading JSON: %s", e)
             raise ExtractorError("Error reading JSON") from e
