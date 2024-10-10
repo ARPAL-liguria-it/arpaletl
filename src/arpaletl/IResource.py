@@ -13,7 +13,6 @@ class IResource(ABC):
         """
         self.uri = uri
 
-    @abstractmethod
     def __del__(self):
         """
         Destructor for IResource

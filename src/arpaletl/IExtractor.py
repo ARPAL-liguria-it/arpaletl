@@ -15,7 +15,6 @@ class IExtractor(ABC):
         """
         self.resource = resource
 
-    @abstractmethod
     def __del__(self):
         """
         Destructor for IExtractor
