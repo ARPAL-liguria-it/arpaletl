@@ -6,3 +6,4 @@ pytest
 coverage
 pandas
 requests
+aiohttp
