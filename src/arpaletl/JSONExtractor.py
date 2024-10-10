@@ -1,4 +1,5 @@
 import json
+from io import BytesIO
 import pandas as pd
 from src.arpaletl.IExtractor import IExtractor
 from src.arpaletl.ArpalEtlErrors import ExtractorError
@@ -30,8 +31,11 @@ class JSONExtractor(IExtractor):
         @returns: Extracted data
         """
         try:
-            raw_data = self.resource.async_open()
-            json_data = json.loads(raw_data.decode('utf-8'))
+            buffer = BytesIO()
+            async for chunk in self.resource.async_open_stream(1024):
+                buffer.write(chunk)
+            buffer.seek(0)
+            json_data = json.load(buffer.getvalue().decode("utf-8"))
             self.df = pd.DataFrame(json_data)
             self.logger.info("JSON resource successfully read")
         except Exception as e:
