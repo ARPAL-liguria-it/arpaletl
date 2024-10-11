@@ -1,10 +1,10 @@
 """
-WebResource module that implements the IResource interface
+Module that implements the IResource interface
 """
 from typing import AsyncIterator
 import aiohttp
-from src.arpaletl.IResource import IResource
-from src.arpaletl.ArpalEtlErrors import ResourceError
+from src.arpaletl.resource.resource import IResource
+from src.arpaletl.utils.arpaletlerros import ResourceError
 from src.arpaletl.utils.logger import get_logger
 
 

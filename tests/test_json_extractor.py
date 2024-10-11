@@ -1,12 +1,12 @@
 import unittest
-import pandas as pd
 import asyncio
 from pathlib import Path
-from unittest.mock import MagicMock, AsyncMock, patch
-from src.arpaletl.JSONExtractor import JSONExtractor
-from src.arpaletl.ArpalEtlErrors import ExtractorError
-from src.arpaletl.WebResource import WebResource
-from src.arpaletl.FsResource import FsResource
+import pandas as pd
+from src.arpaletl.extractor.jsonextractor import JSONExtractor
+from src.arpaletl.utils.arpaletlerros import ExtractorError
+from src.arpaletl.resource.webresource import WebResource
+from src.arpaletl.resource.fsresource import FsResource
+
 
 class TestJSONExtractor(unittest.TestCase):
     """
@@ -69,5 +69,7 @@ class TestJSONExtractor(unittest.TestCase):
         for case in test_cases:
             with self.subTest(msg=case["description"]):
                 self.extract_and_test(
-                    resource=case["resource"], expected_exception=case["expected_exception"], gzip_flag=case["gzip_flag"]
+                    resource=case["resource"],
+                    expected_exception=case["expected_exception"],
+                    gzip_flag=case["gzip_flag"]
                 )

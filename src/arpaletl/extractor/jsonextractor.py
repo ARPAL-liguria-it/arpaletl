@@ -1,13 +1,13 @@
 """
-Extractor for JSON data
+Module for extracting JSON resources.
 """
 import json
 import gzip
 from io import BytesIO
 import pandas as pd
-from src.arpaletl.IExtractor import IExtractor
-from src.arpaletl.ArpalEtlErrors import ExtractorError, ResourceError
-from src.arpaletl.IResource import IResource
+from src.arpaletl.extractor.extractor import IExtractor
+from src.arpaletl.utils.arpaletlerros import ExtractorError, ResourceError
+from src.arpaletl.resource.resource import IResource
 from src.arpaletl.utils.logger import get_logger
 
 

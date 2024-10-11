@@ -2,8 +2,8 @@
 Oracle database client module that implements the IDbClient interface
 """
 import sqlalchemy
-from src.arpaletl.IDbClient import IDbClient
-from src.arpaletl.ArpalEtlErrors import DbClientError
+from src.arpaletl.dbclient.dbclient import IDbClient
+from src.arpaletl.utils.arpaletlerros import DbClientError
 from src.arpaletl.utils.logger import get_logger
 
 

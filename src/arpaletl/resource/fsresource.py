@@ -3,8 +3,8 @@ Module for handling file system resources.
 """
 import os
 from typing import AsyncIterator
-from src.arpaletl.IResource import IResource
-from src.arpaletl.ArpalEtlErrors import ResourceError
+from src.arpaletl.resource.resource import IResource
+from src.arpaletl.utils.arpaletlerros import ResourceError
 from src.arpaletl.utils.logger import get_logger
 
 

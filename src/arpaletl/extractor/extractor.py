@@ -1,9 +1,9 @@
 """
-IExtractor interface
+Module that implements the IExtractor interface
 """
 from abc import ABC, abstractmethod
 import pandas as pd
-from src.arpaletl.IResource import IResource
+from src.arpaletl.resource.resource import IResource
 
 
 class IExtractor(ABC):
