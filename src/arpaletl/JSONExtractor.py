@@ -43,14 +43,14 @@ class JSONExtractor(IExtractor):
             if not buffer.seekable():
                 self.logger.error("Buffer is not seekable")
                 raise ExtractorError("Buffer is not seekable")
-            if gzipped is True:
-                if not buffer.getvalue().startswith(b"\x1f\x8b"):
-                    self.logger.error(
-                        "Data is not gzipped please set gzipped to False or check the data source")
-                    raise ExtractorError(
-                        "Data is not gzipped please set gzipped to False or check the data source")
-                buffer.seek(0)
-                data = gzip.decompress(buffer.getvalue())
+            if gzipped:
+                try:
+                    buffer.seek(0)
+                    with gzip.GzipFile(fileobj=buffer, mode="rb") as f:
+                        data = f.read()
+                except Exception as e:
+                    self.logger.error("Error reading gzipped JSON: %s", e)
+                    raise ExtractorError("Error reading gzipped JSON") from e
             else:
                 buffer.seek(0)
                 data = buffer.getvalue()
