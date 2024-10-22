@@ -1,5 +1,5 @@
 """
-Interface for database client
+Module for IDbClient interface
 """
 from abc import ABC, abstractmethod
 

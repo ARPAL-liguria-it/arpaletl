@@ -1,5 +1,5 @@
 """
-Interface for the Loader class.
+Module for ILoader interface
 """
 from abc import ABC, abstractmethod
 import pandas as pd
@@ -8,12 +8,14 @@ from sqlalchemy import Table
 
 class ILoader(ABC):
     """
-    ILoder interface
+    Interface for loader
     """
 
     @abstractmethod
     def __init__(self) -> None:
-        super().__init__()
+        """
+        Constructor for ILoader
+        """
 
     @abstractmethod
     async def upsert(self, data: pd.DataFrame, table: Table, keys: dict) -> None:
@@ -26,4 +28,6 @@ class ILoader(ABC):
 
     @abstractmethod
     def __del__(self) -> None:
-        pass
+        """
+        Destructor for ILoader
+        """

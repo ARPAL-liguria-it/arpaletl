@@ -1,5 +1,5 @@
 """
-Custom exceptions for arpaletl library
+Module for custom exceptions
 """
 
 

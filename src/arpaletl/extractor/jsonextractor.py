@@ -1,5 +1,5 @@
 """
-Module that implements the IExtractor interface for JSON resources
+Module for JSONExtractor class
 """
 import json
 import gzip
@@ -14,7 +14,7 @@ from src.arpaletl.utils.logger import get_logger
 class JSONExtractor(IExtractor):
     """
     Class that takes care of extracting a JSON resource 
-    into a Pandas DataFrame object for further use.
+    into a Pandas DataFrame object for further use. Implements the IExtractor interface.
     """
 
     df: pd.DataFrame

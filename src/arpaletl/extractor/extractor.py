@@ -1,5 +1,5 @@
 """
-Module that implements the IExtractor interface
+Module for IExtractor interface
 """
 from abc import ABC, abstractmethod
 import pandas as pd

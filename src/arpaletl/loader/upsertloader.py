@@ -1,5 +1,5 @@
 """
-Module that implements the ILoader interface for upserting data
+Module for UpsertLoader class
 """
 import pandas as pd
 from sqlalchemy import Table
@@ -11,7 +11,7 @@ from src.arpaletl.utils.logger import get_logger
 
 class UpsertLoader(ILoader):
     """
-    Class that loads data into Oracle DB
+    Class that loads data into Oracle DB. Implements the ILoader interface.
     """
 
     def __init__(self, db_client) -> None:
@@ -35,7 +35,8 @@ class UpsertLoader(ILoader):
             with engine.connect() as connection:
                 for _, row in data.iterrows():
                     data = row.to_dict()
-                    data = {k: v for k, v in data.items() if k in table.columns.keys()}
+                    data = {k: v for k, v in data.items(
+                    ) if k in table.columns.keys()}
                     conditions = [table.c[col] == data[col] for col in keys]
                     stmt = select(table).where(*conditions)
                     result = connection.execute(stmt).fetchone()

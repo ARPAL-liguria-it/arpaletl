@@ -1,5 +1,5 @@
 """
-Interface for resources
+Module for IResource interface
 """
 from abc import ABC, abstractmethod
 import io
@@ -41,7 +41,7 @@ class IResource(ABC):
 
     async def unzip(self, zipblob: bytes) -> bytes:
         """
-        This method will unzip a downloaded resource before exposing it as an object
+        This method will unzip a downloaded resource before returning it as an object
         @param zipblob: Zipped resource
         @returns: Unzipped resource
         """

@@ -1,5 +1,5 @@
 """
-Oracle database client module that implements the IDbClient interface
+Module for OracleDbClient class
 """
 import sqlalchemy
 from src.arpaletl.dbclient.dbclient import IDbClient

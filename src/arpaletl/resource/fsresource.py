@@ -1,5 +1,5 @@
 """
-Module for handling file system resources.
+Module for FsResource class
 """
 import os
 from typing import AsyncIterator
@@ -10,7 +10,7 @@ from src.arpaletl.utils.logger import get_logger
 
 class FsResource(IResource):
     """
-    Class that takes care of handling file system resources
+    Class that takes care of handling file system resources. Implements the IResource interface.
     """
 
     def __init__(self, uri):

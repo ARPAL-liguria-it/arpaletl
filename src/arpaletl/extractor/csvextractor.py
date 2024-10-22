@@ -1,5 +1,5 @@
 """
-Module that implements the IExtractor interface for CSV resources
+Module for CsvExtractor class
 """
 from io import BytesIO, StringIO
 import pandas as pd
@@ -12,7 +12,7 @@ from src.arpaletl.utils.logger import get_logger
 class CsvExtractor(IExtractor):
     """
     Class that takes care of extracting a CSV resource
-    into a Pandas DataFrame object for further use.
+    into a Pandas DataFrame object for further use. Implements the IExtractor interface.
     """
 
     df: pd.DataFrame

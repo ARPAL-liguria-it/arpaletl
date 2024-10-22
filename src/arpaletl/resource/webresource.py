@@ -1,5 +1,5 @@
 """
-Module that implements the IResource interface
+Module for WebResource class
 """
 from typing import AsyncIterator
 import aiohttp
@@ -10,7 +10,7 @@ from src.arpaletl.utils.logger import get_logger
 
 class WebResource(IResource):
     """
-    Class that takes care of handling web resources
+    Class that takes care of handling web resources. Implements the IResource interface.
     """
 
     def __init__(self, uri: str, timeout: int = 10, headers: dict = None):
