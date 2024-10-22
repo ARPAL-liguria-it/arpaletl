@@ -25,7 +25,7 @@ class FsResource(IResource):
         super().__init__(uri)
         self.logger = get_logger(__name__)
 
-    async def open(self) -> bytes:
+    async def open(self, zipped: bool = False) -> bytes:
         """
         Async Open method for FsResource it will open the entire
         resource and make it available for reading
@@ -35,12 +35,14 @@ class FsResource(IResource):
         try:
             with open(self.uri, "rb") as file:
                 data = file.read()
+                if zipped:
+                    data = await self.unzip(data)
                 return data
         except Exception as e:
             self.logger.error("Error opening file system resource: %s", e)
             raise ResourceError("Error opening file system resource") from e
 
-    async def open_stream(self, chunk: int) -> AsyncIterator[bytes]:
+    async def open_stream(self, chunk: int, zipped: bool = False) -> AsyncIterator[bytes]:
         """
         Async Open method for FsResource it will open the
         resource and make it available for reading in chunks
@@ -54,6 +56,8 @@ class FsResource(IResource):
                     data = file.read(chunk)
                     if not data:
                         break
+                    if zipped:
+                        data = await self.unzip(data)
                     yield data
         except Exception as e:
             self.logger.error("Error opening file system resource: %s", e)
