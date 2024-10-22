@@ -1,5 +1,5 @@
 """
-Module for extracting data from CSV resources
+Module that implements the IExtractor interface for CSV resources
 """
 from io import BytesIO, StringIO
 import pandas as pd

@@ -1,5 +1,5 @@
 """
-Module for extracting JSON resources.
+Module that implements the IExtractor interface for JSON resources
 """
 import json
 import gzip
