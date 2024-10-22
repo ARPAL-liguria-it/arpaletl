@@ -2,10 +2,10 @@ import unittest
 import asyncio
 from pathlib import Path
 import pandas as pd
-from src.arpaletl.extractor.jsonextractor import JSONExtractor
-from src.arpaletl.utils.arpaletlerros import ExtractorError
-from src.arpaletl.resource.webresource import WebResource
-from src.arpaletl.resource.fsresource import FsResource
+from arpaletl.extractor.jsonextractor import JSONExtractor
+from arpaletl.utils.arpaletlerrors import ExtractorError
+from arpaletl.resource.webresource import WebResource
+from arpaletl.resource.fsresource import FsResource
 
 
 class TestJSONExtractor(unittest.TestCase):

@@ -2,8 +2,8 @@ import unittest
 import asyncio
 import os
 from pathlib import Path
-from src.arpaletl.utils.arpaletlerros import ResourceError
-from src.arpaletl.resource.fsresource import FsResource
+from arpaletl.utils.arpaletlerrors import ResourceError
+from arpaletl.resource.fsresource import FsResource
 
 
 class TestFsResource(unittest.TestCase):

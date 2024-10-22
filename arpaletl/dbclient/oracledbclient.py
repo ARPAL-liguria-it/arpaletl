@@ -2,9 +2,9 @@
 Module for OracleDbClient class
 """
 import sqlalchemy
-from src.arpaletl.dbclient.dbclient import IDbClient
-from src.arpaletl.utils.arpaletlerros import DbClientError
-from src.arpaletl.utils.logger import get_logger
+from arpaletl.dbclient.dbclient import IDbClient
+from arpaletl.utils.arpaletlerrors import DbClientError
+from arpaletl.utils.logger import get_logger
 
 
 class OracleDbClient(IDbClient):

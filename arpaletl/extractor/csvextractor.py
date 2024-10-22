@@ -3,10 +3,10 @@ Module for CsvExtractor class
 """
 from io import BytesIO, StringIO
 import pandas as pd
-from src.arpaletl.extractor.extractor import IExtractor
-from src.arpaletl.utils.arpaletlerros import ExtractorError
-from src.arpaletl.resource.resource import IResource
-from src.arpaletl.utils.logger import get_logger
+from arpaletl.extractor.extractor import IExtractor
+from arpaletl.utils.arpaletlerrors import ExtractorError
+from arpaletl.resource.resource import IResource
+from arpaletl.utils.logger import get_logger
 
 
 class CsvExtractor(IExtractor):

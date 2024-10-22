@@ -1,7 +1,7 @@
 import unittest
 import asyncio
-from src.arpaletl.utils.arpaletlerros import ResourceError
-from src.arpaletl.resource.webresource import WebResource
+from arpaletl.utils.arpaletlerrors import ResourceError
+from arpaletl.resource.webresource import WebResource
 
 
 class TestWebResource(unittest.TestCase):

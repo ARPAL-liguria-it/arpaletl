@@ -3,9 +3,9 @@ Module for WebResource class
 """
 from typing import AsyncIterator
 import aiohttp
-from src.arpaletl.resource.resource import IResource
-from src.arpaletl.utils.arpaletlerros import ResourceError
-from src.arpaletl.utils.logger import get_logger
+from arpaletl.resource.resource import IResource
+from arpaletl.utils.arpaletlerrors import ResourceError
+from arpaletl.utils.logger import get_logger
 
 
 class WebResource(IResource):

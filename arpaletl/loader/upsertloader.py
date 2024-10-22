@@ -4,9 +4,9 @@ Module for UpsertLoader class
 import pandas as pd
 from sqlalchemy import Table
 from sqlalchemy import select, update, insert
-from src.arpaletl.loader.loader import ILoader
-from src.arpaletl.utils.arpaletlerros import LoaderError
-from src.arpaletl.utils.logger import get_logger
+from arpaletl.loader.loader import ILoader
+from arpaletl.utils.arpaletlerrors import LoaderError
+from arpaletl.utils.logger import get_logger
 
 
 class UpsertLoader(ILoader):

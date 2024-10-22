@@ -1,8 +1,8 @@
 import unittest
 from unittest.mock import patch, MagicMock
 from sqlalchemy import Engine
-from src.arpaletl.dbclient.oracledbclient import OracleDbClient
-from src.arpaletl.utils.arpaletlerros import DbClientError
+from arpaletl.dbclient.oracledbclient import OracleDbClient
+from arpaletl.utils.arpaletlerrors import DbClientError
 
 
 class TestOracleDbClient(unittest.TestCase):

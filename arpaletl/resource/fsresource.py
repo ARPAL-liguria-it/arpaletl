@@ -3,9 +3,9 @@ Module for FsResource class
 """
 import os
 from typing import AsyncIterator
-from src.arpaletl.resource.resource import IResource
-from src.arpaletl.utils.arpaletlerros import ResourceError
-from src.arpaletl.utils.logger import get_logger
+from arpaletl.resource.resource import IResource
+from arpaletl.utils.arpaletlerrors import ResourceError
+from arpaletl.utils.logger import get_logger
 
 
 class FsResource(IResource):
