@@ -32,3 +32,9 @@ class DbClientError(ArpalEtlError):
     """
     Custom exception for db client errors
     """
+
+
+class LoaderError(ArpalEtlError):
+    """
+    Custom exception for loader errors
+    """
