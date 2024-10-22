@@ -3,7 +3,7 @@ Interface for the Loader class.
 """
 from abc import ABC, abstractmethod
 import pandas as pd
-from sqlalchemy.orm import Base
+from sqlalchemy import Table
 
 
 class ILoader(ABC):
@@ -16,7 +16,7 @@ class ILoader(ABC):
         super().__init__()
 
     @abstractmethod
-    async def upsert(self, data: pd.DataFrame, table: Base, keys: dict) -> None:
+    async def upsert(self, data: pd.DataFrame, table: Table, keys: dict) -> None:
         """
         Abstract method that loads the data into a destination.
         @param data: Data to be loaded

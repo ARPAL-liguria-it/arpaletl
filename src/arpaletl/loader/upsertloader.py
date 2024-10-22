@@ -2,7 +2,7 @@
 Module that implements the ILoader interface for upserting data
 """
 import pandas as pd
-from sqlalchemy.orm import Base
+from sqlalchemy import Table
 from sqlalchemy import select, update, insert
 from src.arpaletl.loader.loader import ILoader
 from src.arpaletl.utils.arpaletlerros import LoaderError
@@ -22,15 +22,15 @@ class UpsertLoader(ILoader):
         self.logger = get_logger(__name__)
         self.db_client = db_client
 
-    async def upsert(self, data: pd.DataFrame, table: Base, keys: dict) -> None:
+    async def upsert(self, data: pd.DataFrame, table: Table, keys: dict) -> None:
         """
         Method that loads data into Oracle DB
         @param data: Data to be loaded
         @param table: Table to load data into
+        @param keys: Keys to match data with
         """
         try:
             engine = self.db_client.get_engine()
-            table = table.__tablename__
             self.logger.info("Upserting data into DB")
             with engine.connect() as connection:
                 for _, row in data.iterrows():
