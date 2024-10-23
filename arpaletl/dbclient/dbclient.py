@@ -1,4 +1,6 @@
-from sqlalchemy import Engine
+"""
+Module for IDbClient interface
+"""
 from abc import ABC, abstractmethod
 
 
@@ -6,10 +8,6 @@ class IDbClient(ABC):
     """
     Interface for database client
     """
-    
-
-    engine: Engine
-
 
     @abstractmethod
     def __init__(self):
@@ -17,17 +15,15 @@ class IDbClient(ABC):
         Constructor for IDbClient
         """
 
-
     @abstractmethod
     def __del__(self):
         """
         Destructor for IDbClient
         """
 
-
-    def get_engine(self) -> Engine:
+    @abstractmethod
+    def connect(self) -> object:
         """
-        Return engine
+        Connect method for IDbClient
+        @returns: Connection object
         """
-        return self.engine
-
