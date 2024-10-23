@@ -1,4 +1,5 @@
 import unittest
+import os
 import asyncio
 import pandas as pd
 from sqlalchemy import create_engine, Table, Column, Integer, String, MetaData
@@ -16,9 +17,11 @@ class TestUpsertLoader(unittest.TestCase):
         """
         Set up test database and create test table
         """
-        self.engine = create_engine(
-            'oracle+oracledb:'
-        )
+        dsn = os.environ.get('DB_DSN')
+        pwd = os.environ.get('DB_PWD')
+        usr = os.environ.get('DB_USR')
+        url = f'oracle+oracledb://{usr}:{pwd}@{dsn}'
+        self.engine = create_engine(url)
         self.metadata = MetaData()
 
         self.test_table = Table(
