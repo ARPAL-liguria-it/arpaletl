@@ -4,7 +4,6 @@ from pathlib import Path
 import pandas as pd
 from arpaletl.extractor.csvextractor import CsvExtractor
 from arpaletl.utils.arpaletlerrors import ExtractorError
-from arpaletl.resource.webresource import WebResource
 from arpaletl.resource.fsresource import FsResource
 
 
@@ -12,7 +11,8 @@ class TestCSVExtractor(unittest.TestCase):
     """
     Test class for JSONExtractor with resources passed as parameters to each function.
     """
-    def extract_and_test(self, resource, expected_exception=None, gzip_flag=False):
+
+    def extract_and_test(self, resource, expected_exception=None):
         """
         Helper method to extract data using the provided resource and handle expected exceptions.
         """
