@@ -1,0 +1,10 @@
+kkkkkkkkkkkkkkktest_file_non_formatted
+
+Name, Age, Location, Email
+John Doe, 25, New York, john.doe@example.com
+Jane Smith,, Los Angeles, jane.smith@example.com
+, 30, Chicago, tom.lee@example
+Anna Brown, , , anna.brown@
+Chris, 35, Seattle, chris.seattle@example.com
+John@Doe, 28, New York, johndoe@domain
+, , , ,

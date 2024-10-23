@@ -30,7 +30,7 @@ class TestJSONExtractor(unittest.TestCase):
         Parametric test for JSONExtractor.
         """
         current_dir = Path(__file__).parent
-        file_non_json = current_dir / 'blobs' / 'test_file_non_json'
+        file_non_formatted = current_dir / 'blobs' / 'test_file_non_formatted'
         json_tmp_gzip = current_dir / 'blobs' / 'json_tmp.gz'
 
         test_cases = [
@@ -47,7 +47,7 @@ class TestJSONExtractor(unittest.TestCase):
                 "description": "Invalid web resource - should raise ExtractorError",
             },
             {
-                "resource": FsResource(file_non_json),
+                "resource": FsResource(file_non_formatted),
                 "expected_exception": ExtractorError,
                 "gzip_flag": True,
                 "description": "Invalid file resource (not a JSON)- should raise ExtractorError",
@@ -59,7 +59,7 @@ class TestJSONExtractor(unittest.TestCase):
                 "description": "Valid gzip",
             },
             {
-                "resource": FsResource(file_non_json),
+                "resource": FsResource(file_non_formatted),
                 "expected_exception": ExtractorError,
                 "gzip_flag": True,
                 "description": "Invalid gzip",

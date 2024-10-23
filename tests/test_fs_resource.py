@@ -23,8 +23,8 @@ class TestFsResource(unittest.TestCase):
         Test that the open method returns a bytes object
         """
         current_dir = Path(__file__).parent
-        file_non_json = current_dir / 'blobs' / 'test_file_non_json'
-        resource = FsResource(file_non_json)
+        test_file_non_formatted = current_dir / 'blobs' / 'test_file_non_formatted'
+        resource = FsResource(test_file_non_formatted)
         by = asyncio.run(resource.open())
         self.assertIsInstance(by, bytes)
 
@@ -45,8 +45,8 @@ class TestFsResource(unittest.TestCase):
         Test that the open_stream method returns a bytes object
         """
         current_dir = Path(__file__).parent
-        file_non_json = current_dir / 'blobs' / 'test_file_non_json'
-        resource = FsResource(file_non_json)
+        test_file_non_formatted = current_dir / 'blobs' / 'test_file_non_formatted'
+        resource = FsResource(test_file_non_formatted)
 
         async def run_test():
             # Ensure that we're iterating over the async generator
