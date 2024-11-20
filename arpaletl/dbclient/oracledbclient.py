@@ -56,3 +56,10 @@ class OracleDbClient(IDbClient):
             self.logger.error("Connection failed: %s", e)
             raise DbClientError("Connection failed") from e
         return conn
+
+    def get_engine(self) -> sqlalchemy.Engine:
+        """
+        Get method for engine
+        @returns: Engine object
+        """
+        return self.engine
