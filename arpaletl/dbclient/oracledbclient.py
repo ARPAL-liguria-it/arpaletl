@@ -46,11 +46,11 @@ class OracleDbClient(IDbClient):
         @returns: Connection object
         """
         try:
-            conn = self.engine.connect()
+            self.conn = self.engine.connect()
         except Exception as e:
             self.logger.error("Connection failed: %s", e)
             raise DbClientError("Connection failed") from e
-        return conn
+        return self.conn
 
     def get_engine(self) -> sqlalchemy.Engine:
         """
@@ -65,6 +65,7 @@ class OracleDbClient(IDbClient):
         @raises DbClientError: If engine disposal fails
         """
         try:
+            self.conn.close()
             self.engine.dispose()
             self.logger.info("Sqlalchemy engine disposed successfully")
         except Exception as e:
