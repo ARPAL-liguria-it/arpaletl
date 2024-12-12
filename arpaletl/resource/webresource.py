@@ -13,7 +13,7 @@ class WebResource(IResource):
     Class that takes care of handling web resources. Implements the IResource interface.
     """
 
-    def __init__(self, uri: str, timeout: int = 10, headers: dict = None):
+    def __init__(self, uri: str, timeout: int = 10, headers: dict = None, zipped: bool = False):
         """
         Constructor for WebResource
         @self.uri: URI of the web resource
@@ -24,9 +24,10 @@ class WebResource(IResource):
         self.uri = uri
         self.timeout = timeout
         self.headers = headers
+        self.zipped = zipped
         self.logger = get_logger(__name__)
 
-    async def open(self, zipped: bool = False) -> bytes:
+    async def open(self) -> bytes:
         """
         Async Open method for WebResource it will download the entire
         resource and make it available for reading
@@ -41,7 +42,7 @@ class WebResource(IResource):
                     response.raise_for_status()
                     self.logger.info(
                         "Resource successfully downloaded from %s", self.uri)
-                    if zipped:
+                    if self.zipped:
                         return await self.unzip(await response.content.read())
                     else:
                         return await response.content.read()
@@ -49,7 +50,7 @@ class WebResource(IResource):
             self.logger.error("Error downloading web resource: %s", e)
             raise ResourceError("Error downloading web resource") from e
 
-    async def open_stream(self, chunk: int, zipped: bool = False) -> AsyncIterator[bytes]:
+    async def open_stream(self, chunk: int) -> AsyncIterator[bytes]:
         """
         Async Open method for WebResource it will download the
         resource and make it available for reading in chunks
@@ -69,7 +70,7 @@ class WebResource(IResource):
                         data = await response.content.read(chunk)
                         if not data:
                             break
-                        if zipped:
+                        if self.zipped:
                             data = await self.unzip(data)
                         yield data
         except aiohttp.ClientError as e:
