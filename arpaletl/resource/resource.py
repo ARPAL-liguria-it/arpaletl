@@ -26,14 +26,14 @@ class IResource(ABC):
         """
 
     @abstractmethod
-    async def open(self, zipped: bool = False) -> object:
+    async def open(self) -> object:
         """
         Open method for IResource that is async
         @returns: Opened resource that can be readed
         """
 
     @abstractmethod
-    async def open_stream(self, chunk: int, zipped: bool) -> object:
+    async def open_stream(self) -> object:
         """
         Open method for IResource that is async and streams
         @returns: Opened resource that can be parsed in @chunk sized chunks
