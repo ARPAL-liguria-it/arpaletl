@@ -38,7 +38,7 @@ class JSONExtractor(IExtractor):
         """
         try:
             buffer = BytesIO()
-            async for chunk in self.resource.open_stream(1024):
+            async for chunk in self.resource.open_stream():
                 buffer.write(chunk)
             if not buffer.seekable():
                 self.logger.error("Buffer is not seekable")

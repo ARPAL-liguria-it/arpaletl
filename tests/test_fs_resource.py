@@ -50,7 +50,7 @@ class TestFsResource(unittest.TestCase):
 
         async def run_test():
             # Ensure that we're iterating over the async generator
-            async for by in resource.open_stream(1024):
+            async for by in resource.open_stream():
                 self.assertIsInstance(by, bytes)
 
         # Use asyncio.run() to run the coroutine
@@ -67,7 +67,7 @@ class TestFsResource(unittest.TestCase):
 
         async def run_test():
             with self.assertRaises(ResourceError):
-                async for _ in resource.open_stream(1024):
+                async for _ in resource.open_stream():
                     pass
 
         # Use asyncio.run() to run the coroutine
