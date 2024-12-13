@@ -13,18 +13,21 @@ class WebResource(IResource):
     Class that takes care of handling web resources. Implements the IResource interface.
     """
 
-    def __init__(self, uri: str, timeout: int = 10, headers: dict = None, zipped: bool = False):
+    def __init__(self, uri: str, timeout: int = 10, headers: dict = None, zipped: bool = False, chunk: int = 1024):
         """
         Constructor for WebResource
         @self.uri: URI of the web resource
         @self.timeout: Timeout for the request
         @self.headers: Headers for the request
         @self.logger: Logger object
+        @self.zipped: isZipped parameter
+        @self.chunk: Chunk size for the stream
         """
         self.uri = uri
         self.timeout = timeout
         self.headers = headers
         self.zipped = zipped
+        self.chunk = chunk
         self.logger = get_logger(__name__)
 
     async def open(self) -> bytes:
@@ -50,12 +53,11 @@ class WebResource(IResource):
             self.logger.error("Error downloading web resource: %s", e)
             raise ResourceError("Error downloading web resource") from e
 
-    async def open_stream(self, chunk: int) -> AsyncIterator[bytes]:
+    async def open_stream(self) -> AsyncIterator[bytes]:
         """
         Async Open method for WebResource it will download the
         resource and make it available for reading in chunks
         @raises: ResourceError: If there are problems downloading the resource
-        @param chunk: Size of the chunks to be readed
         @returns: an Iterator that can be parsed in @chunk sized chunks
         """
         try:
@@ -67,7 +69,7 @@ class WebResource(IResource):
                     self.logger.info(
                         "Resource successfully downloaded from %s", self.uri)
                     while True:
-                        data = await response.content.read(chunk)
+                        data = await response.content.read(self.chunk)
                         if not data:
                             break
                         if self.zipped:
