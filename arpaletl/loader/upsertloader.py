@@ -50,6 +50,38 @@ class UpsertLoader(ILoader):
         except Exception as e:
             raise LoaderError(
                 f"Error loading data into DB: {str(e)}") from e
+            
+    async def upsert_transaction(self, data: pd.DataFrame, table: Table, keys: dict) -> None:
+        """
+        Method that loads data into Oracle DB as a single transaction
+        @param data: Data to be loaded
+        @param table: Table to load data into
+        @param keys: Keys to match data with
+        """
+        try:
+            engine = self.db_client.get_engine()
+            self.logger.info("Upserting data into DB")
+            with engine.connect() as connection:
+                # Start transaction
+                with connection.begin():
+                    for _, row in data.iterrows():
+                        data = row.to_dict()
+                        data = {k: v for k, v in data.items() 
+                            if k in table.columns.keys()}
+                        conditions = [table.c[col] == data[col] for col in keys]
+                        stmt = select(table).where(*conditions)
+                        result = connection.execute(stmt).fetchone()
+                        
+                        if result:
+                            stmt = update(table).where(*conditions).values(**data)
+                        else:
+                            stmt = insert(table).values(**data)
+                        connection.execute(stmt)
+                    # Transaction will automatically commit here if no errors occurred
+                    # If any error occurred, it will automatically rollback
+        except Exception as e:
+            raise LoaderError(
+                f"Error loading data into DB: {str(e)}") from e
 
     def __del__(self) -> None:
         """
